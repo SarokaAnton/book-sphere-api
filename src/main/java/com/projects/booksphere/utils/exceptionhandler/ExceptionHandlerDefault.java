@@ -2,6 +2,7 @@ package com.projects.booksphere.utils.exceptionhandler;
 
 import com.projects.booksphere.utils.exceptionhandler.exceptions.ElementAlreadyExistsException;
 import com.projects.booksphere.utils.exceptionhandler.exceptions.ElementNotFoundException;
+import com.projects.booksphere.utils.exceptionhandler.exceptions.ElementUpdateException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,12 @@ public class ExceptionHandlerDefault {
     public ResponseEntity<Problem> handleElementAlreadyExistException(ElementAlreadyExistsException exception) {
         Problem problem = buildProblem(Status.CONFLICT, "Conflict", exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problem);
+    }
+
+    @ExceptionHandler(ElementUpdateException.class)
+    public ResponseEntity<Problem> handleElementUpdateException(ElementUpdateException exception) {
+        Problem problem = buildProblem(Status.BAD_REQUEST, "Bad request", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
