@@ -71,6 +71,14 @@ public class GenreServiceDefault implements GenreService {
         return entityToDtoMapper.toGenreDTO(genreRepository.save(genreDB));
     }
 
+    @Override
+    public void deleteGenreById(Long genreId) {
+        genreRepository.findById(genreId).ifPresentOrElse(genreRepository::delete,
+                () -> {
+                    throw new ElementNotFoundException(String.format(GENRE_NOT_FOUND, genreId));
+                });
+    }
+
     private Genre getUpdatedGenre(JsonMergePatch patch, Genre genreDB) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -79,14 +87,6 @@ public class GenreServiceDefault implements GenreService {
         } catch (JsonPatchException | JsonProcessingException exception) {
             throw new ElementUpdateException(GENRE_UPDATE_EXCEPTION_MESSAGE);
         }
-    }
-
-    @Override
-    public void deleteGenreById(Long genreId) {
-        genreRepository.findById(genreId).ifPresentOrElse(genreRepository::delete,
-                () -> {
-                    throw new ElementNotFoundException(String.format(GENRE_NOT_FOUND, genreId));
-                });
     }
 
     private boolean isGenreExist(Genre genre) {
