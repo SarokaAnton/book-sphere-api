@@ -16,9 +16,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.projects.booksphere.utils.exceptionhandler.ExceptionMessages.*;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
@@ -49,11 +49,9 @@ public class AuthorServiceDefault implements AuthorService {
     }
 
     @Override
-    public List<AuthorDTO> getAllAuthors() {
-        return authorRepository.findAll()
-                .stream()
-                .map(entityToDtoMapper::toAuthorDTO)
-                .toList();
+    public Page<AuthorDTO> getAllAuthors(Pageable pageable) {
+        return authorRepository.findAll(pageable)
+                .map(entityToDtoMapper::toAuthorDTO);
     }
 
     @Override

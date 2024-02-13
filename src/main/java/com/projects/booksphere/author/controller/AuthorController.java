@@ -5,10 +5,12 @@ import com.projects.booksphere.author.model.AuthorDTO;
 import com.projects.booksphere.author.service.AuthorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +24,8 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AuthorDTO>> getAllAuthor() {
-        return ResponseEntity.ok(authorService.getAllAuthors());
+    public ResponseEntity<Page<AuthorDTO>> getAllAuthor(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(authorService.getAllAuthors(pageable));
     }
 
     @GetMapping("/{id}")
