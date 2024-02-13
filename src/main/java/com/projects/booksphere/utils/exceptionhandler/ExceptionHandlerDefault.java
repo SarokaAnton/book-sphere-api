@@ -3,6 +3,7 @@ package com.projects.booksphere.utils.exceptionhandler;
 import com.projects.booksphere.utils.exceptionhandler.exceptions.ElementAlreadyExistsException;
 import com.projects.booksphere.utils.exceptionhandler.exceptions.ElementNotFoundException;
 import com.projects.booksphere.utils.exceptionhandler.exceptions.ElementUpdateException;
+import com.projects.booksphere.utils.exceptionhandler.exceptions.InvalidTokenException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,12 @@ public class ExceptionHandlerDefault {
         String errorMessage = fieldError != null ? fieldError.getDefaultMessage() : "Invalid request";
         Problem problem = buildProblem(Status.BAD_REQUEST, "Invalid request", errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<Problem> handleInvalidTokenException(InvalidTokenException exception) {
+        Problem problem = buildProblem(Status.UNAUTHORIZED, "Unauthorized", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problem);
     }
 
     private Problem buildProblem(Status status, String title, String detail) {
