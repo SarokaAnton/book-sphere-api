@@ -26,6 +26,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static com.projects.booksphere.utils.exceptionhandler.ExceptionMessages.*;
@@ -68,35 +70,27 @@ public class BookServiceDefault implements BookService {
     }
 
     @Override
-    public List<BookDTO> getAllBooks() {
-        return bookRepository.findAll()
-                .stream()
-                .map(entityToDtoMapper::toBookDTO)
-                .toList();
+    public Page<BookDTO> getAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(entityToDtoMapper::toBookDTO);
     }
 
     @Override
-    public List<BookDTO> getBooksByGenres(Set<Long> genreIds) {
-        return bookRepository.findBooksByAllGenreIds(genreIds, genreIds.size())
-                .stream()
-                .map(entityToDtoMapper::toBookDTO)
-                .toList();
+    public Page<BookDTO> getBooksByGenres(Set<Long> genreIds, Pageable pageable) {
+        return bookRepository.findBooksByAllGenreIds(genreIds, genreIds.size(), pageable)
+                .map(entityToDtoMapper::toBookDTO);
     }
 
     @Override
-    public List<BookDTO> getBooksByTags(Set<Long> tagIds) {
-        return bookRepository.findBooksByAllTagIds(tagIds, tagIds.size())
-                .stream()
-                .map(entityToDtoMapper::toBookDTO)
-                .toList();
+    public Page<BookDTO> getBooksByTags(Set<Long> tagIds, Pageable pageable) {
+        return bookRepository.findBooksByAllTagIds(tagIds, tagIds.size(), pageable)
+                .map(entityToDtoMapper::toBookDTO);
     }
 
     @Override
-    public List<BookDTO> getBooksByAuthor(Long authorId) {
-        return bookRepository.findAllByAuthorsId(authorId)
-                .stream()
-                .map(entityToDtoMapper::toBookDTO)
-                .toList();
+    public Page<BookDTO> getBooksByAuthor(Long authorId, Pageable pageable) {
+        return bookRepository.findAllByAuthorsId(authorId, pageable)
+                .map(entityToDtoMapper::toBookDTO);
     }
 
     @Override

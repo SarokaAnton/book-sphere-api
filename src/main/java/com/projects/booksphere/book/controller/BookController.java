@@ -5,10 +5,12 @@ import com.projects.booksphere.book.model.BookDTO;
 import com.projects.booksphere.book.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -23,8 +25,8 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDTO>> getAllBooks() {
-        return ResponseEntity.ok(bookService.getAllBooks());
+    public ResponseEntity<Page<BookDTO>> getAllBooks(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(bookService.getAllBooks(pageable));
     }
 
     @GetMapping("/{id}")
@@ -33,18 +35,18 @@ public class BookController {
     }
 
     @GetMapping("/search/by-genres")
-    public ResponseEntity<List<BookDTO>> getBooksByGenres(@RequestParam Set<Long> genreIds) {
-        return ResponseEntity.ok(bookService.getBooksByGenres(genreIds));
+    public ResponseEntity<Page<BookDTO>> getBooksByGenres(@RequestParam Set<Long> genreIds, @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(bookService.getBooksByGenres(genreIds, pageable));
     }
 
     @GetMapping("/search/by-tags")
-    public ResponseEntity<List<BookDTO>> getBooksByTags(@RequestParam Set<Long> tagIds) {
-        return ResponseEntity.ok(bookService.getBooksByTags(tagIds));
+    public ResponseEntity<Page<BookDTO>> getBooksByTags(@RequestParam Set<Long> tagIds, @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(bookService.getBooksByTags(tagIds, pageable));
     }
 
     @GetMapping("/search/by-author/{authorId}")
-    public ResponseEntity<List<BookDTO>> getBooksByAuthor(@PathVariable Long authorId) {
-        return ResponseEntity.ok(bookService.getBooksByAuthor(authorId));
+    public ResponseEntity<Page<BookDTO>> getBooksByAuthor(@PathVariable Long authorId, @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(bookService.getBooksByAuthor(authorId, pageable));
     }
 
     @PatchMapping("/{id}")

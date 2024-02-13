@@ -2,8 +2,9 @@ package com.projects.booksphere.book.service;
 
 import com.github.fge.jsonpatch.mergepatch.JsonMergePatch;
 import com.projects.booksphere.book.model.BookDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Set;
 
 public interface BookService {
@@ -11,13 +12,13 @@ public interface BookService {
 
     BookDTO getBookById(Long bookId);
 
-    List<BookDTO> getAllBooks();
+    Page<BookDTO> getAllBooks(Pageable pageable);
 
-    List<BookDTO> getBooksByGenres(Set<Long> genreIds);
+    Page<BookDTO> getBooksByGenres(Set<Long> genreIds, Pageable pageable);
 
-    List<BookDTO> getBooksByTags(Set<Long> tagIds);
+    Page<BookDTO> getBooksByTags(Set<Long> tagIds, Pageable pageable);
 
-    List<BookDTO> getBooksByAuthor(Long authorId);
+    Page<BookDTO> getBooksByAuthor(Long authorId, Pageable pageable);
 
     BookDTO updateBook(Long bookId, JsonMergePatch patch);
 
