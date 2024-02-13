@@ -16,4 +16,9 @@ public class ExceptionMessages {
     public static final String TAG_NOT_FOUND = "Tag with id %d not found";
     public static final String TAG_ALREADY_EXIST = "Tag with name %s already exists";
     public static final String TAG_UPDATE_EXCEPTION_MESSAGE = "Bad tag update request";
+    public static final String USER_NOT_FOUND = "User not found";
+    public static final String USER_ALREADY_EXIST = "User with email:%s already exist";
+    public static final String INVALID_EMAIL_IN_TOKEN = "Invalid email in refresh token";
+    public static final String INVALID_REFRESH_TOKEN = "Invalid refresh token";
+    public static final String REQUEST_SHOULD_CONTAIN_TOKEN = "Refresh request should contain refresh token";
 }
